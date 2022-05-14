@@ -1,3 +1,6 @@
+import Profile from "./Profile";
+import Friends from "./Friends";
+
 export const App = () => {
   return (
     <div
@@ -10,7 +13,8 @@ export const App = () => {
         color: '#010101'
       }}
     >
-      React homework template
+      <Profile />
+      <Friends />
     </div>
   );
 };
