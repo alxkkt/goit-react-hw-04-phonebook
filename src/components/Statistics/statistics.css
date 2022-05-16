@@ -1,0 +1,39 @@
+.statistics {
+    block-size: 100vh;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+
+    display: grid;
+    place-items: center;
+    align-content: center;
+
+}
+
+.stat-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+}
+
+.title {
+    text-transform: uppercase;
+    font-size: 28px;
+}
+
+.stat-list .item {
+    width: calc(100% / 5);
+    outline: 1px solid tomato;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px 25px;
+}
+
+.label,
+.percentage {
+    padding: 10px 0;
+}

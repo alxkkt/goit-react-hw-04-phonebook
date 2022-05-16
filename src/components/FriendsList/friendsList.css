@@ -1,0 +1,5 @@
+.friend-list {
+    block-size: 100vh;
+
+    scroll-snap-align: center;
+}
