@@ -8,36 +8,6 @@ import Statistics from './components/Statistics';
 import FriendsList from './components/FriendsList';
 import TransactionHistory from './components/TransactionHistory';
 
-// export const App = () => {
-//   return (
-//     <>
-//     <Container>
-//       <Profile 
-//       imageUrl={user.avatar}
-//       userName={user.username}
-//       profileTag={user.tag}
-//       userLocation={user.location}
-//       stats={user.stats}
-//       />
-//     </Container>
-//     <Container>
-//       <Statistics
-//       title="Upload Stats"
-//       stats={data} />
-//       </Container>
-//     <Container>
-//       <FriendsList 
-//       friends={friends}/>
-//       </Container>
-//     <Container>
-//       <TransactionHistory
-//       data={transactions}
-//       />
-//             </Container></>
-
-//   );
-// };
-
 export const App = () => {
   return (
     <div style={{
