@@ -1,0 +1,12 @@
+.friendsList {
+  block-size: 100vh;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+
+  list-style: none;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}

@@ -1,8 +1,0 @@
-.transaction-history {
-    block-size: 100vh;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-
-    display: grid;
-    place-items: center;
-}
