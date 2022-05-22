@@ -1,0 +1,35 @@
+.container {
+  /* max-width: 600px; */
+  padding: 15px;
+
+  display: flex;
+  justify-content: center;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.formBtn {
+  display: inline-block;
+  width: 100px;
+  padding: 5px;
+  border-radius: 4px;
+
+  background-color: beige;
+  border: 0.5px solid black;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input {
+  padding: 5px;
+  margin: 15px 0;
+}
+
+.title {
+  text-align: center;
+
+  margin-bottom: 15px;
+}

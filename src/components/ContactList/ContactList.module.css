@@ -1,0 +1,24 @@
+.contacts {
+  padding: 15px;
+}
+
+.contactsTitle {
+  margin-bottom: 15px;
+}
+
+.contactsListItem:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.contactsList {
+  list-style: lower-greek;
+  padding: 15px;
+}
+
+.notification {
+  text-align: center;
+
+  text-transform: capitalize;
+  color: tomato;
+  padding: 15px;
+}
