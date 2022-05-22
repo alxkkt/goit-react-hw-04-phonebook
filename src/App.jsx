@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import Notiflix from 'notiflix';
 
 import Phonebook from 'components/Phonebook';
 import ContactList from 'components/ContactList';
@@ -12,20 +13,33 @@ class App extends Component {
     filter: '',
   };
   addContact = newContact => {
-    this.setState(({ contacts }) => {
-      if (contacts.find(contact => contact.name === newContact.name)) {
-        return alert('Ne nado tak');
-      } else {
-        contacts.push(newContact);
+    const { contacts } = this.state;
 
-        return {
-          contacts: [...contacts],
-        };
-      }
+    if (contacts.find(contact => contact.name === newContact.name)) {
+      Notiflix.Report.warning('Oops', 'You already have this contact');
+      return;
+    }
+
+    this.setState(prevState => {
+      prevState.contacts.push(newContact);
+      return {
+        contacts: [...prevState.contacts],
+      };
     });
   };
-  filterContact = query => {
-    this.setState({ ...query }); // state.filter --> ...query
+  updateContacts = contactId => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(
+          contact => contact.id !== contactId,
+        ),
+      };
+    });
+  };
+  filterContact = e => {
+    const { name, value } = e.target;
+
+    this.setState({ [name]: value });
   };
   render() {
     return (
@@ -45,8 +59,8 @@ class App extends Component {
         >
           Contacts
         </h2>
-        <Filter onChange={this.filterContact} />
-        <ContactList {...this.state} />
+        <Filter filterQuery={this.filterContact} />
+        <ContactList {...this.state} onDelete={this.updateContacts} />
       </div>
     );
   }

@@ -8,26 +8,19 @@ class ContactList extends Component {
     contacts: [],
     filter: '',
   };
-  state = {
-    contacts: [...this.props.contacts],
-  };
-  deleteContact = idx => {
-    this.setState(prevState => {
-      return {
-        contacts: prevState.contacts.filter(contact => contact.id !== idx),
-      };
-    });
+  deleteContact = contactId => {
+    this.props.onDelete(contactId);
   };
   render() {
-    const { contacts } = this.state;
-    const { filter } = this.props;
+    const { filter, contacts } = this.props;
 
-    const contactsCopy = contacts.map(contact => ({ ...contact }));
-    const filteredContacts = contactsCopy.filter(contact =>
+    const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter),
     );
 
-    const elements = filteredContacts.map(({ name, number, id }) => (
+    const finalContacts = filter === '' ? contacts : filteredContacts;
+
+    const elements = finalContacts.map(({ name, number, id }) => (
       <li key={id} className={styles.contactsListItem}>
         <p>
           {name}: {number}
@@ -59,5 +52,6 @@ ContactList.propTypes = {
       id: PropTypes.string.isRequired,
     }),
   ),
-  filter: PropTypes.string,
+  filter: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
