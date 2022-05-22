@@ -4,13 +4,41 @@ import PropTypes from 'prop-types';
 import styles from './ContactList.module.css';
 
 class ContactList extends Component {
-  state = {};
+  static defaultProps = {
+    contacts: [],
+    filter: '',
+  };
+  state = {
+    contacts: [...this.props.contacts],
+  };
+  deleteContact = idx => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(contact => contact.id !== idx),
+      };
+    });
+  };
   render() {
-    const { contacts } = this.props;
+    const { contacts } = this.state;
+    const { filter } = this.props;
 
-    const elements = contacts.map(({ name, number, id }) => (
+    const contactsCopy = contacts.map(contact => ({ ...contact }));
+    const filteredContacts = contactsCopy.filter(contact =>
+      contact.name.toLowerCase().includes(filter),
+    );
+
+    const elements = filteredContacts.map(({ name, number, id }) => (
       <li key={id} className={styles.contactsListItem}>
-        {name}: {number}
+        <p>
+          {name}: {number}
+        </p>
+        <button
+          type="button"
+          className={styles.deleteBtn}
+          onClick={() => this.deleteContact(id)}
+        >
+          Delete
+        </button>
       </li>
     ));
     return (
@@ -23,10 +51,6 @@ class ContactList extends Component {
 
 export default ContactList;
 
-ContactList.defaultProps = {
-  contacts: [],
-};
-
 ContactList.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
@@ -35,4 +59,5 @@ ContactList.propTypes = {
       id: PropTypes.string.isRequired,
     }),
   ),
+  filter: PropTypes.string,
 };

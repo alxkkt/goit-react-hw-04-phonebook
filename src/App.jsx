@@ -11,10 +11,21 @@ class App extends Component {
     contacts: [...contacts],
     filter: '',
   };
-  addContact = data => {
-    this.setState({
-      ...data,
+  addContact = newContact => {
+    this.setState(({ contacts }) => {
+      if (contacts.find(contact => contact.name === newContact.name)) {
+        return alert('Ne nado tak');
+      } else {
+        contacts.push(newContact);
+
+        return {
+          contacts: [...contacts],
+        };
+      }
     });
+  };
+  filterContact = query => {
+    this.setState({ ...query }); // state.filter --> ...query
   };
   render() {
     return (
@@ -34,8 +45,8 @@ class App extends Component {
         >
           Contacts
         </h2>
-        <Filter />
-        <ContactList contacts={this.state.contacts} />
+        <Filter onChange={this.filterContact} />
+        <ContactList {...this.state} />
       </div>
     );
   }

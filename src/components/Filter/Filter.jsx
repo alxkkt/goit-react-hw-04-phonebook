@@ -11,6 +11,8 @@ class Filter extends Component {
     const { name, value } = e.target;
 
     this.setState({ [name]: value });
+
+    this.props.onChange(this.state);
   };
   render() {
     const { filter } = this.state;
@@ -33,3 +35,7 @@ class Filter extends Component {
 }
 
 export default Filter;
+
+Filter.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};

@@ -8,15 +8,11 @@ class Phonebook extends Component {
   state = {
     name: '',
     number: '',
-    contacts: [],
   };
   handleSubmit = e => {
     e.preventDefault();
-    const { contacts } = this.state;
 
-    this.props.onSubmit(this.state);
-
-    contacts.push({
+    this.props.onSubmit({
       name: this.state.name,
       number: this.state.number,
       id: nanoid(),
