@@ -50,8 +50,8 @@ class App extends Component {
       return contacts;
     }
     const searchedName = filter.toLowerCase();
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(searchedName),
+    const filteredContacts = contacts.filter(({ name }) =>
+      name.toLowerCase().includes(searchedName),
     );
 
     return filteredContacts;
