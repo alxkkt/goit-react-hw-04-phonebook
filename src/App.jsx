@@ -16,7 +16,7 @@ class App extends Component {
   addContact = data => {
     const { contacts } = this.state;
 
-    if (contacts.find(contact => contact.name === data.name)) {
+    if (contacts.find(({ name }) => name === data.name)) {
       Notiflix.Report.warning('Oops', 'You already have this contact');
       return;
     }
@@ -43,7 +43,22 @@ class App extends Component {
 
     this.setState({ [name]: value });
   };
+  getFilteredContacts() {
+    const { contacts, filter } = this.state;
+
+    if (!filter) {
+      return contacts;
+    }
+    const searchedName = filter.toLowerCase();
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(searchedName),
+    );
+
+    return filteredContacts;
+  }
   render() {
+    const userContacts = this.getFilteredContacts();
+
     return (
       <div
         style={{
@@ -64,7 +79,7 @@ class App extends Component {
         <Filter filterQuery={this.filterContact} />
         <ContactList
           filter={this.state.filter}
-          contacts={this.state.contacts}
+          contacts={userContacts}
           onDelete={this.updateContacts}
         />
       </div>
