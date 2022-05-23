@@ -6,24 +6,26 @@ import ContactList from 'components/ContactList';
 import Filter from 'components/Filter';
 
 import { contacts } from 'components/Phonebook/contacts';
+import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
     contacts: [...contacts],
     filter: '',
   };
-  addContact = newContact => {
+  addContact = data => {
     const { contacts } = this.state;
 
-    if (contacts.find(contact => contact.name === newContact.name)) {
+    if (contacts.find(contact => contact.name === data.name)) {
       Notiflix.Report.warning('Oops', 'You already have this contact');
       return;
     }
 
-    this.setState(prevState => {
-      prevState.contacts.push(newContact);
+    this.setState(({ contacts }) => {
+      const newContact = { ...data, id: nanoid() };
+
       return {
-        contacts: [...prevState.contacts],
+        contacts: [...contacts, newContact],
       };
     });
   };

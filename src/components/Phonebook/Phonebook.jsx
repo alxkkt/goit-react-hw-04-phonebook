@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
 
 import styles from './Phonebook.module.css';
 
@@ -12,11 +11,7 @@ class Phonebook extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onSubmit({
-      name: this.state.name,
-      number: this.state.number,
-      id: nanoid(),
-    });
+    this.props.onSubmit(this.state);
 
     this.setState({
       name: '',
