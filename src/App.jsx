@@ -62,7 +62,11 @@ class App extends Component {
           Contacts
         </h2>
         <Filter filterQuery={this.filterContact} />
-        <ContactList {...this.state} onDelete={this.updateContacts} />
+        <ContactList
+          filter={this.state.filter}
+          contacts={this.state.contacts}
+          onDelete={this.updateContacts}
+        />
       </div>
     );
   }
