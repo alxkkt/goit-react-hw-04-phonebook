@@ -2,11 +2,7 @@ import PropTypes from 'prop-types';
 
 import styles from './ContactList.module.css';
 
-const ContactList = ({ filter, contacts, onDelete }) => {
-  // const filteredContacts = contacts.filter(contact =>
-  //   contact.name.toLowerCase().includes(filter),
-  // );
-
+const ContactList = ({ contacts, onDelete }) => {
   const elements = contacts.map(({ name, number, id }) => (
     <li key={id} className={styles.contactsListItem}>
       <p>
@@ -32,7 +28,6 @@ export default ContactList;
 
 ContactList.defaultProps = {
   contacts: [],
-  filter: '',
 };
 
 ContactList.propTypes = {
@@ -43,6 +38,5 @@ ContactList.propTypes = {
       id: PropTypes.string.isRequired,
     }),
   ),
-  filter: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

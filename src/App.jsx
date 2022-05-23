@@ -77,11 +77,7 @@ class App extends Component {
           Contacts
         </h2>
         <Filter filterQuery={this.filterContact} />
-        <ContactList
-          filter={this.state.filter}
-          contacts={userContacts}
-          onDelete={this.updateContacts}
-        />
+        <ContactList contacts={userContacts} onDelete={this.updateContacts} />
       </div>
     );
   }
