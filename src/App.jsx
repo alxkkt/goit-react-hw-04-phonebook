@@ -13,6 +13,22 @@ class App extends Component {
     contacts: [...contacts],
     filter: '',
   };
+  componentDidMount() {
+    const { contacts } = this.state;
+
+    if (contacts) {
+      const data = JSON.stringify(contacts);
+      localStorage.setItem('contacts', data);
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      const { contacts } = this.state;
+
+      const newData = JSON.stringify(contacts);
+      localStorage.setItem('contacts', newData);
+    }
+  }
   addContact = data => {
     const { contacts } = this.state;
 
