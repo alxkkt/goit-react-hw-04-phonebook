@@ -14,11 +14,12 @@ class App extends Component {
     filter: '',
   };
   componentDidMount() {
-    const { contacts } = this.state;
+    const savedContacts = localStorage.getItem('contacts');
 
-    if (contacts) {
-      const data = JSON.stringify(contacts);
-      localStorage.setItem('contacts', data);
+    if (savedContacts) {
+      const parsedContacts = JSON.parse(savedContacts);
+
+      this.setState({ contacts: [...parsedContacts] });
     }
   }
   componentDidUpdate(prevProps, prevState) {
