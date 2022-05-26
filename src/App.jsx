@@ -16,6 +16,7 @@ const App = () => {
   });
 
   const firstRender = useRef(true);
+  console.log(firstRender.current);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -24,7 +25,7 @@ const App = () => {
       if (data?.length) {
         setState(prevState => ({
           ...prevState,
-          contacts: [...prevState.contacts, ...parsedContacts],
+          contacts: [...parsedContacts],
         }));
       }
       firstRender.current = false;
