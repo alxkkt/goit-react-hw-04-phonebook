@@ -1,67 +1,75 @@
-import { Component } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Notiflix from 'notiflix';
 
 import Phonebook from 'components/Phonebook';
 import ContactList from 'components/ContactList';
 import Filter from 'components/Filter';
 
-import { contacts } from 'components/Phonebook/contacts';
+import { userContacts } from 'components/Phonebook/contacts';
 import { nanoid } from 'nanoid';
 
-class App extends Component {
-  state = {
-    contacts: [...contacts],
+const App = () => {
+  const [state, setState] = useState({
+    contacts: [...userContacts],
+    // contacts: [],
     filter: '',
-  };
-  componentDidMount() {
-    const savedContacts = localStorage.getItem('contacts');
+  });
 
-    if (savedContacts) {
-      const parsedContacts = JSON.parse(savedContacts);
+  const firstRender = useRef(true);
 
-      this.setState({ contacts: [...parsedContacts] });
+  useEffect(() => {
+    if (firstRender.current) {
+      const data = localStorage.getItem('contacts');
+      const parsedContacts = JSON.parse(data);
+      if (data?.length) {
+        setState(prevState => ({
+          ...prevState,
+          contacts: [...prevState.contacts, ...parsedContacts],
+        }));
+      }
+      firstRender.current = false;
     }
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
-      const { contacts } = this.state;
-
-      const newData = JSON.stringify(contacts);
-      localStorage.setItem('contacts', newData);
+  }, []);
+  useEffect(() => {
+    if (!firstRender.current) {
+      const newItems = JSON.stringify(state.contacts);
+      localStorage.setItem('contacts', newItems);
     }
-  }
-  addContact = data => {
-    const { contacts } = this.state;
+  }, [state.contacts]);
+  const addContact = data => {
+    const { contacts } = state;
 
     if (contacts.find(({ name }) => name === data.name)) {
       Notiflix.Report.warning('Oops', 'You already have this contact');
       return;
     }
 
-    this.setState(({ contacts }) => {
+    setState(prevState => {
       const newContact = { ...data, id: nanoid() };
 
       return {
-        contacts: [...contacts, newContact],
+        contacts: [...prevState.contacts, newContact],
+        filter: '',
       };
     });
   };
-  updateContacts = contactId => {
-    this.setState(prevState => {
+  const updateContacts = contactId => {
+    setState(prevState => {
       return {
+        ...prevState,
         contacts: prevState.contacts.filter(
           contact => contact.id !== contactId,
         ),
       };
     });
   };
-  filterContact = e => {
+  const filterContact = e => {
     const { name, value } = e.target;
 
-    this.setState({ [name]: value });
+    setState(prevState => ({ ...prevState, [name]: value }));
   };
-  getFilteredContacts() {
-    const { contacts, filter } = this.state;
+  const getFilteredContacts = () => {
+    const { contacts, filter } = state;
 
     if (!filter) {
       return contacts;
@@ -72,32 +80,29 @@ class App extends Component {
     );
 
     return filteredContacts;
-  }
-  render() {
-    const userContacts = this.getFilteredContacts();
-
-    return (
-      <div
+  };
+  const contactItems = getFilteredContacts();
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <h1>Phonebook</h1>
+      <Phonebook onSubmit={addContact} />
+      <h2
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          marginBottom: '10px',
         }}
       >
-        <h1>Phonebook</h1>
-        <Phonebook onSubmit={this.addContact} />
-        <h2
-          style={{
-            marginBottom: '10px',
-          }}
-        >
-          Contacts
-        </h2>
-        <Filter filterQuery={this.filterContact} />
-        <ContactList contacts={userContacts} onDelete={this.updateContacts} />
-      </div>
-    );
-  }
-}
+        Contacts
+      </h2>
+      <Filter filterQuery={filterContact} />
+      <ContactList contacts={contactItems} onDelete={updateContacts} />
+    </div>
+  );
+};
 
 export default App;
