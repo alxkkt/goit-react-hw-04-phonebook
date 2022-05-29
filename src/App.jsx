@@ -11,12 +11,10 @@ import { nanoid } from 'nanoid';
 const App = () => {
   const [state, setState] = useState({
     contacts: [...userContacts],
-    // contacts: [],
     filter: '',
   });
 
   const firstRender = useRef(true);
-  console.log(firstRender.current);
 
   useEffect(() => {
     if (firstRender.current) {
