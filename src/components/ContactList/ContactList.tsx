@@ -1,8 +1,15 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import styles from './ContactList.module.css';
 
-const ContactList = ({ contacts, onDelete }) => {
+import { TContact } from '../../App';
+
+interface IProps {
+  contacts: TContact[];
+  onDelete: (param: string) => void;
+}
+
+const ContactList = ({ contacts = [], onDelete }: IProps) => {
   const elements = contacts.map(({ name, number, id }) => (
     <li key={id} className={styles.contactsListItem}>
       <p>
@@ -25,18 +32,3 @@ const ContactList = ({ contacts, onDelete }) => {
 };
 
 export default ContactList;
-
-ContactList.defaultProps = {
-  contacts: [],
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    }),
-  ),
-  onDelete: PropTypes.func.isRequired,
-};

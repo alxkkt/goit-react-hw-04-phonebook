@@ -1,8 +1,12 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import styles from './Filter.module.css';
 
-const Filter = ({ filterQuery }) => {
+interface IProps {
+  filterQuery: (param: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Filter = ({ filterQuery }: IProps) => {
   return (
     <div>
       <label htmlFor="" className={styles.label}>
@@ -19,7 +23,3 @@ const Filter = ({ filterQuery }) => {
 };
 
 export default Filter;
-
-Filter.propTypes = {
-  filterQuery: PropTypes.func.isRequired,
-};

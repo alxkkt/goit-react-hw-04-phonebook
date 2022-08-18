@@ -1,15 +1,23 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 import styles from './Phonebook.module.css';
 
-const Phonebook = ({ onSubmit }) => {
-  const [state, setState] = useState({
+type TState = {
+  name: string;
+  number: string;
+}
+
+interface IProps {
+  onSubmit: (param: TState) => void;
+}
+
+const Phonebook = ({ onSubmit }: IProps) => {
+  const [state, setState] = useState<TState>({
     name: '',
     number: '',
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     onSubmit(state);
@@ -19,7 +27,8 @@ const Phonebook = ({ onSubmit }) => {
       number: '',
     });
   };
-  const handleChange = e => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setState(prevState => ({
@@ -27,6 +36,7 @@ const Phonebook = ({ onSubmit }) => {
       [name]: value,
     }));
   };
+
   const { name, number } = state;
   return (
     <div className={styles.container}>
@@ -62,7 +72,3 @@ const Phonebook = ({ onSubmit }) => {
 };
 
 export default Phonebook;
-
-Phonebook.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};

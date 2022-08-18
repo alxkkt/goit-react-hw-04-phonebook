@@ -1,25 +1,42 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Notiflix from 'notiflix';
 
-import Phonebook from 'components/Phonebook';
-import ContactList from 'components/ContactList';
-import Filter from 'components/Filter';
 
-import { userContacts } from 'components/Phonebook/contacts';
+import Phonebook from './components/Phonebook';
+import ContactList from './components/ContactList';
+import Filter from './components/Filter';
+
+import initialContacts from './components/Phonebook/contacts.json';
 import { nanoid } from 'nanoid';
 
+export type TContact = {
+  id: string;
+  name: string;
+  number: string;
+}
+
+interface IState {
+  contacts: TContact[];
+  filter: string;
+}
+
+interface IContactData {
+  name: string;
+  number: string;
+}
+
 const App = () => {
-  const [state, setState] = useState({
-    contacts: [...userContacts],
+  const [state, setState] = useState<IState>({
+    contacts: [...initialContacts],
     filter: '',
   });
 
-  const firstRender = useRef(true);
+  const firstRender = useRef<boolean>(true);
 
   useEffect(() => {
     if (firstRender.current) {
       const data = localStorage.getItem('contacts');
-      const parsedContacts = JSON.parse(data);
+      const parsedContacts = JSON.parse(data!);
       if (data?.length) {
         setState(prevState => ({
           ...prevState,
@@ -29,17 +46,19 @@ const App = () => {
       firstRender.current = false;
     }
   }, []);
+
   useEffect(() => {
     if (!firstRender.current) {
       const newItems = JSON.stringify(state.contacts);
       localStorage.setItem('contacts', newItems);
     }
   }, [state.contacts]);
-  const addContact = data => {
+
+  const addContact = (data: IContactData) => {
     const { contacts } = state;
 
     if (contacts.find(({ name }) => name === data.name)) {
-      Notiflix.Report.warning('Oops', 'You already have this contact');
+      Notiflix.Report.warning('Oops', 'You already have this contact', 'Ok');
       return;
     }
 
@@ -52,7 +71,7 @@ const App = () => {
       };
     });
   };
-  const updateContacts = contactId => {
+  const updateContacts = (contactId: string) => {
     setState(prevState => {
       return {
         ...prevState,
@@ -62,11 +81,12 @@ const App = () => {
       };
     });
   };
-  const filterContact = e => {
+  const filterContact = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setState(prevState => ({ ...prevState, [name]: value }));
   };
+
   const getFilteredContacts = () => {
     const { contacts, filter } = state;
 
@@ -80,7 +100,9 @@ const App = () => {
 
     return filteredContacts;
   };
+
   const contactItems = getFilteredContacts();
+
   return (
     <div
       style={{
